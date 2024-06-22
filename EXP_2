@@ -1,0 +1,25 @@
+import string
+
+def create_cipher_map():
+    plaintext_alphabet = string.ascii_lowercase
+    ciphertext_alphabet = 'qwertyuiopasdfghjklzxcvbnm'
+    encryption_map = {plain: cipher for plain, cipher in zip(plaintext_alphabet, ciphertext_alphabet)}
+    decryption_map = {cipher: plain for plain, cipher in zip(plaintext_alphabet, ciphertext_alphabet)}
+    
+    return encryption_map, decryption_map
+
+def encrypt(plaintext, encryption_map):
+    ciphertext = ''.join(encryption_map.get(char, char) for char in plaintext.lower())
+    return ciphertext
+
+def decrypt(ciphertext, decryption_map):
+    plaintext = ''.join(decryption_map.get(char, char) for char in ciphertext.lower())
+    return plaintext
+encryption_map, decryption_map = create_cipher_map()
+
+plaintext = "hello world"
+ciphertext = encrypt(plaintext, encryption_map)
+print(f"Plaintext: {plaintext}")
+print(f"Ciphertext: {ciphertext
+decrypted_text = decrypt(ciphertext, decryption_map)
+print(f"Decrypted text: {decrypted_text}")
