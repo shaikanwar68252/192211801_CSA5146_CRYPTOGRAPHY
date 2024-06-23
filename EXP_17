@@ -1,0 +1,20 @@
+# DES Decryption Algorithm
+
+def decrypt(ciphertext, keys):
+    # Perform decryption using reverse order of keys
+    plaintext = ciphertext
+    for key in reversed(keys):
+        plaintext = apply_key(plaintext, key)
+    return plaintext
+
+def apply_key(data, key):
+    # Apply key to data (dummy function)
+    return data  # Dummy implementation
+
+# Example ciphertext and keys
+ciphertext = "0110011001100110"
+keys = ["K1", "K2", "K3", "K4", "K5", "K6", "K7", "K8", "K9", "K10", "K11", "K12", "K13", "K14", "K15", "K16"]
+
+# Decrypt the ciphertext
+decrypted_text = decrypt(ciphertext, keys)
+print("Decrypted Text:", decrypted_text)
