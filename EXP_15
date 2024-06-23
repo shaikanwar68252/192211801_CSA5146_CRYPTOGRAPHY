@@ -1,0 +1,31 @@
+from collections import Counter
+
+def decrypt(ciphertext, shift):
+    alphabet_lower = 'abcdefghijklmnopqrstuvwxyz'
+    alphabet_upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    decrypted_text = ''
+    for char in ciphertext:
+        if char.islower():
+            shifted_index = (alphabet_lower.index(char) - shift) % 26
+            decrypted_text += alphabet_lower[shifted_index]
+        elif char.isupper():
+            shifted_index = (alphabet_upper.index(char) - shift) % 26
+            decrypted_text += alphabet_upper[shifted_index]
+        else:
+            decrypted_text += char
+    return decrypted_text
+
+def letter_frequency_attack(ciphertext):
+    possible_plaintexts = []
+    for shift in range(26):
+        decrypted_text = decrypt(ciphertext, shift)
+        letter_count = Counter(decrypted_text.lower())
+        score = sum(letter_count.get(letter, 0) for letter in 'etaoinshrdlucmfwypvbgkjqxz')
+        possible_plaintexts.append((decrypted_text, score))
+    sorted_plaintexts = sorted(possible_plaintexts, key=lambda x: x[1], reverse=True)
+    return sorted_plaintexts
+
+ciphertext = "Khoor zruog, dqg wkhq, brx duh vruub."
+top_plaintexts = letter_frequency_attack(ciphertext)[:10]
+for index, (text, score) in enumerate(top_plaintexts, start=1):
+    print(f"Plaintext {index}: {text} (Score: {score})")
