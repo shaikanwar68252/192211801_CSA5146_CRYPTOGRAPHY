@@ -1,0 +1,17 @@
+def generate_playfair_matrix():
+    matrix = [['M', 'F', 'H', 'I', 'K'],
+              ['U', 'N', 'O', 'P', 'Q'],
+              ['Z', 'V', 'W', 'X', 'Y'],
+              ['E', 'L', 'A', 'R', 'G'],
+              ['D', 'S', 'T', 'B', 'C']]
+    return matrix
+
+def encrypt_message(message, matrix):
+    # Encryption logic here
+    pass
+
+# Encrypt the message using the Playfair matrix
+playfair_matrix = generate_playfair_matrix()
+message = "Must see you over Cadogan West. Coming at once."
+encrypted_message = encrypt_message(message, playfair_matrix)
+print(encrypted_message)
