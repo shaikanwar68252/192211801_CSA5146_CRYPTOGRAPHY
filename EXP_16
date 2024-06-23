@@ -1,0 +1,24 @@
+import collections
+
+def letter_frequency_attack(ciphertext):
+    # Frequency of letters in English language, in decreasing order
+    english_freq_order = 'ETAOINSHRDLCUMWFGYPBVKJXQZ'
+    
+    # Calculate frequency of each letter in the ciphertext
+    freq = collections.Counter(ciphertext.replace(' ', ''))
+    
+    # Sort letters by frequency in the ciphertext
+    sorted_freq = sorted(freq, key=freq.get, reverse=True)
+    
+    # Create a mapping of ciphertext letters to the most common English letters
+    mapping = {sorted_freq[i]: english_freq_order[i] for i in range(min(len(sorted_freq), len(english_freq_order)))}
+    
+    # Decrypt the ciphertext using the mapping
+    decrypted_text = ''.join([mapping.get(c, c) for c in ciphertext])
+    
+    return decrypted_text
+
+# Example Usage
+ciphertext = "Gwc uivioml bw nqvl bpm zqopb apqnb"
+decrypted_text = letter_frequency_attack(ciphertext)
+print(decrypted_text)
