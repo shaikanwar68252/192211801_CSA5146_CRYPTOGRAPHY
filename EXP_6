@@ -1,0 +1,48 @@
+from collections import Counter
+from math import gcd
+
+def egcd(a, b):
+    if a == 0:
+        return (b, 0, 1)
+    else:
+        g, y, x = egcd(b % a, a)
+        return (g, x - (b // a) * y, y)
+
+def modinv(a, m):
+    g, x, y = egcd(a, m)
+    if g != 1:
+        raise Exception('Modular inverse does not exist')
+    else:
+        return x % m
+
+def decrypt_affine(ciphertext, a, b):
+    # Ensure a is coprime with 26
+    if gcd(a, 26) != 1:
+        raise ValueError("a must be coprime with 26")
+    
+    decrypted_text = ""
+    a_inv = modinv(a, 26)
+    
+    for char in ciphertext:
+        if char.isalpha():
+            if char.isupper():
+                char_num = ord(char) - ord('A')
+                decrypted_num = (a_inv * (char_num - b)) % 26
+                decrypted_text += chr(decrypted_num + ord('A'))
+            else:
+                char_num = ord(char) - ord('a')
+                decrypted_num = (a_inv * (char_num - b)) % 26
+                decrypted_text += chr(decrypted_num + ord('a'))
+        else:
+            decrypted_text += char
+    return decrypted_text
+
+ciphertext = "BUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBUDBU"
+a = 5  # Example value for a
+b = 8  # Example value for b
+
+try:
+    decrypted_message = decrypt_affine(ciphertext, a, b)
+    print("Decrypted Message:", decrypted_message)
+except Exception as e:
+    print("Error:", str(e))
