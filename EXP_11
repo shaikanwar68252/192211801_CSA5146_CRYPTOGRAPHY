@@ -1,0 +1,8 @@
+# Possible keys without considering identical encryption results
+possible_keys = 26 * 25 * 5 * 5 * 24 * 24
+
+# Effective unique keys considering identical encryption results
+effective_keys = 26 * 25 * 5 * 5 * 24 * 24 / 2
+
+print("Approximate power of 2 for possible keys:", 2**int(possible_keys.bit_length()))
+print("Effective unique keys considering identical encryption results:", effective_keys)
