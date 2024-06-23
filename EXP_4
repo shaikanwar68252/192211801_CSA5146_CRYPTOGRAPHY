@@ -1,0 +1,16 @@
+def polyalphabetic_substitution_cipher(text, key):
+    def shift(char, key_char):
+        return chr(((ord(char) - 65 + ord(key_char) - 65) % 26) + 65)
+
+    key_repeated = key * (len(text) // len(key)) + key[:len(text) % len(key)]
+    ciphertext = ''.join(shift(text[i], key_repeated[i]) for i in range(len(text)))
+    
+    return ciphertext
+
+# Example Usage
+plaintext = "HELLO"
+key = "KEY"
+ciphertext = polyalphabetic_substitution_cipher(plaintext, key)
+print("Plaintext:", plaintext)
+print("Key:", key)
+print("Ciphertext:", ciphertext)
