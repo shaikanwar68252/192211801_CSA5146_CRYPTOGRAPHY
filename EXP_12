@@ -1,0 +1,57 @@
+import numpy as np
+
+def hill_encrypt(plain_text, key_matrix):
+    plain_text = plain_text.replace(" ", "").lower()
+    n = len(key_matrix)
+    if len(plain_text) % n != 0:
+        plain_text += "x" * (n - len(plain_text) % n)
+    plain_text_blocks = [plain_text[i:i+n] for i in range(0, len(plain_text), n)]
+    key_matrix = np.array(key_matrix)
+    cipher_text = ""
+    for block in plain_text_blocks:
+        block_vector = np.array([ord(char) - ord('a') for char in block])
+        encrypted_block = np.dot(key_matrix, block_vector) % 26
+        cipher_text += "".join([chr(num + ord('a')) for num in encrypted_block])
+    return cipher_text
+
+def mod_inverse(a, m):
+    m0, x0, x1 = m, 0, 1
+    if m == 1:
+        return 0
+    while a > 1:
+        q = a // m
+        m, a = a % m, m
+        x0, x1 = x1 - q * x0, x0
+    if x1 < 0:
+        x1 += m0
+    return x1
+
+def hill_decrypt(cipher_text, key_matrix):
+    key_matrix = np.array(key_matrix)
+    det = int(np.round(np.linalg.det(key_matrix))) % 26
+    det_inv = mod_inverse(det, 26)
+    adjugate_matrix = np.round(det * np.linalg.inv(key_matrix)).astype(int) % 26
+    inverse_key_matrix = (det_inv * adjugate_matrix) % 26
+
+    n = len(key_matrix)
+    cipher_text_blocks = [cipher_text[i:i+n] for i in range(0, len(cipher_text), n)]
+    plain_text = ""
+    for block in cipher_text_blocks:
+        block_vector = np.array([ord(char) - ord('a') for char in block])
+        decrypted_block = np.dot(inverse_key_matrix, block_vector) % 26
+        plain_text += "".join([chr(num + ord('a')) for num in decrypted_block])
+    return plain_text
+
+# Key Matrix for Hill Cipher
+key_matrix = [[9, 4], [5, 7]]
+
+# Message to Encrypt
+message = "meet me at the usual place at ten rather than eight oclock"
+
+# Encryption
+encrypted_message = hill_encrypt(message, key_matrix)
+print("Encrypted Message:", encrypted_message)
+
+# Decryption
+decrypted_message = hill_decrypt(encrypted_message, key_matrix)
+print("Decrypted Message:", decrypted_message)
