@@ -1,0 +1,21 @@
+def generate_cipher(keyword):
+    keyword = keyword.upper()
+    alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    cipher_sequence = ''
+    
+    for char in keyword:
+        if char not in cipher_sequence:
+            cipher_sequence += char
+    
+    for char in alphabet:
+        if char not in cipher_sequence:
+            cipher_sequence += char
+    
+    return cipher_sequence
+
+# Example using the keyword 'CIPHER'
+keyword = 'CIPHER'
+cipher_sequence = generate_cipher(keyword)
+
+print('Keyword:', keyword)
+print('Cipher Sequence:', cipher_sequence)
