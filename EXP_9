@@ -1,0 +1,17 @@
+message = """
+KXJEY UREBE ZWEHE WRYTU HEYFS
+KREHE GOYFI WTTTU OLKSY CAJPO
+BOTEI ZONTX BYBNT GONEY CUZWR
+GDSON SXBOU YWRHE BAAHY USEDQ
+"""
+
+decoded_message = ""
+for line in message.split('\n'):
+    for word in line.split():
+        decoded_word = ""
+        for letter in word:
+            decoded_word += chr(((ord(letter) - ord('A') - 5) % 26) + ord('A'))
+        decoded_message += decoded_word + " "
+    decoded_message += "\n"
+
+print(decoded_message)
