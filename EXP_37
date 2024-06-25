@@ -1,0 +1,41 @@
+from collections import Counter
+import string
+
+def decrypt(ciphertext, shift):
+    decrypted = ""
+    for char in ciphertext:
+        if char.isalpha():
+            shifted = ord(char) - shift
+            if char.islower():
+                decrypted += chr((shifted - ord('a')) % 26 + ord('a'))
+            elif char.isupper():
+                decrypted += chr((shifted - ord('A')) % 26 + ord('A'))
+        else:
+            decrypted += char
+    return decrypted
+
+def letter_frequency_attack(ciphertext):
+    # Filter out non-alphabetic characters and make the text lowercase for frequency analysis
+    filtered_text = ''.join(filter(str.isalpha, ciphertext.lower()))
+    
+    # Count the frequency of each letter in the filtered text
+    letter_count = Counter(filtered_text)
+    
+    # Get the most common letters in the filtered text
+    most_common = letter_count.most_common(26)
+    most_common_letters = [char for char, _ in most_common]
+    
+    possible_plaintexts = []
+    for i in range(26):
+        # Assuming 'e' is the most common letter in the plaintext
+        shift = (ord(most_common_letters[0]) - ord('e')) + i
+        decrypted_text = decrypt(ciphertext, shift)
+        possible_plaintexts.append(decrypted_text)
+    
+    return possible_plaintexts
+
+# Example Usage
+ciphertext = "Khoor zruog"
+possible_plaintexts = letter_frequency_attack(ciphertext)
+for plaintext in possible_plaintexts:
+    print(plaintext)
