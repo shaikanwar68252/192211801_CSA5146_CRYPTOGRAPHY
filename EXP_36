@@ -1,0 +1,19 @@
+def affine_caesar_cipher(a, b, text):
+    encrypted_text = ""
+    for char in text:
+        if char.isalpha():
+            if char.islower():
+                encrypted_text += chr(((a * (ord(char) - ord('a')) + b) % 26) + ord('a'))
+            else:
+                encrypted_text += chr(((a * (ord(char) - ord('A')) + b) % 26) + ord('A'))
+        else:
+            encrypted_text += char
+    return encrypted_text
+
+# Example Usage
+a = 2
+b = 3
+plaintext = "Hello, World!"
+encrypted = affine_caesar_cipher(a, b, plaintext)
+print("Original:", plaintext)
+print("Encrypted:", encrypted)
