@@ -1,0 +1,14 @@
+from sympy import Matrix
+
+def hill_cipher_known_plaintext_attack(plaintext_matrix, ciphertext_matrix):
+    inverse_matrix = Matrix(plaintext_matrix).inv_mod(26)
+    key_matrix = Matrix(ciphertext_matrix) * inverse_matrix % 26
+    return key_matrix
+
+# Example of Known Plaintext Attack
+plaintext_matrix = [[8, 5], [6, 9]]  # Example plaintext matrix
+ciphertext_matrix = [[19, 3], [0, 9]]  # Corresponding ciphertext matrix
+
+key_matrix = hill_cipher_known_plaintext_attack(plaintext_matrix, ciphertext_matrix)
+print("Key Matrix:")
+print(key_matrix)
